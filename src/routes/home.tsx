@@ -1,13 +1,11 @@
 import { signal } from '@preact/signals'
-import { useLocation } from 'preact-iso'
-import { buildPath } from '../utils'
+import { Navigation } from '../components/Navigation'
 import preactLogo from '../assets/preact.svg'
 import viteLogo from '/vite.svg'
 import '../app.css'
 
 export function Home() {
   console.log('Rendering Home component')
-  const { route } = useLocation()
   const count = signal(0)
 
   return (
@@ -42,9 +40,7 @@ export function Home() {
       <p class="read-the-docs">
         Click on the Vite and Preact logos to learn more
       </p>
-      <nav>
-        <button onClick={() => route(buildPath('/'))}>Home</button> | <button onClick={() => route(buildPath('/about'))}>About</button>
-      </nav>
+      <Navigation />
     </>
   )
 }
