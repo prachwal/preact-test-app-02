@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import '../app.css'
 
 export function Home() {
+  console.log('Rendering Home component')
   const count = signal(0)
 
   return (
@@ -39,7 +40,7 @@ export function Home() {
         Click on the Vite and Preact logos to learn more
       </p>
       <nav>
-        <a href="/">Home</a> | <a href="/about">About</a>
+        <a href="./">Home</a> | <a href="./about">About</a>
       </nav>
     </>
   )
