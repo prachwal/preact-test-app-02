@@ -3,7 +3,8 @@ import { LocationProvider, Router, Route } from 'preact-iso'
 import './index.css'
 import { Home } from './routes/home.tsx'
 import { About } from './routes/about.tsx'
-import { BASE_PATH } from './config'
+
+const BASE_PATH = import.meta.env.VITE_BASE_PATH || '/'
 
 function App() {
   return (

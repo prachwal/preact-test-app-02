@@ -18,6 +18,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
 
     steps:
     - name: Checkout
@@ -37,6 +39,8 @@ jobs:
 
     - name: Build
       run: npm run build
+      env:
+        VITE_BASE_PATH: /preact-test-app-02/
 
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3

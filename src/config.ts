@@ -1,1 +1,0 @@
-export const BASE_PATH = '/preact-test-app-02/';
