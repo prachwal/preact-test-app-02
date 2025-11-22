@@ -5,33 +5,35 @@ import { Home } from './routes/home.tsx'
 import { About } from './routes/about.tsx'
 
 const BASE_PATH = import.meta.env.VITE_BASE_PATH || '/'
-const SCOPE = BASE_PATH.replace(/\/$/, '')  // Remove trailing slash for scope
-console.log('BASE_PATH:', BASE_PATH)
-console.log('SCOPE:', SCOPE)
+const SCOPE = BASE_PATH.replace(/\/$/, '') // Usuwa końcowy slash
+
+// Funkcja do budowy ścieżek tras
+const buildPath = (relativePath: string) => `${SCOPE}${relativePath}`
 
 const Default = () => {
-  const { path } = useLocation()
-  console.log('Default route, current path:', path)
-  return <div>Default Route</div>
+    const { path } = useLocation()
+    console.log('Default route, current path:', path)
+    return <div>Default Route</div>
 }
 
 function App() {
-  console.log('Rendering App')
-  return (
-    <LocationProvider>
-      <ErrorBoundary onError={(error) => console.log('ErrorBoundary caught error:', error)}>
-        <Router
-          onRouteChange={(url) => console.log('Route changed to:', url)}
-          onLoadStart={(url) => console.log('Load start:', url)}
-          onLoadEnd={(url) => console.log('Load end:', url)}
-        >
-          <Route path={`${SCOPE}/`} component={Home} />
-          <Route path={`${SCOPE}/about`} component={About} />
-          <Route default component={Default} />
-        </Router>
-      </ErrorBoundary>
-    </LocationProvider>
-  )
+
+    console.log('Rendering App component')
+    console.log('App component rendered with scope:', SCOPE)
+
+    return (
+        <LocationProvider scope={SCOPE}> {/* <-- Tutaj musi być scope! */}
+            <ErrorBoundary onError={(error) => console.log('ErrorBoundary caught error:', error)}>
+                <Router>
+                    <Route path={buildPath('/')} component={Home} />
+                    <Route path={buildPath('/about')} component={About} />
+                    <Route default component={Default} />
+                </Router>
+
+
+            </ErrorBoundary>
+        </LocationProvider>
+    )
 }
 
 render(<App />, document.getElementById('app')!)
