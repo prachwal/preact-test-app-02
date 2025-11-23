@@ -22,13 +22,7 @@ preact-iso is a collection of isomorphic async tools for Preact.
 `preact-iso` offers a simple router for Preact with conventional and hooks-based APIs. The `<Router>` component is async-aware: when transitioning from one route to another, if the incoming route suspends (throws a Promise), the outgoing route is preserved until the new one becomes ready.
 
 ```jsx
-import {
- lazy,
- LocationProvider,
- ErrorBoundary,
- Router,
- Route
-} from 'preact-iso';
+import { lazy, LocationProvider, ErrorBoundary, Router, Route } from 'preact-iso';
 
 // Synchronous
 import Home from './routes/home.js';
@@ -39,20 +33,20 @@ const Profile = lazy(() => import('./routes/profile.js'));
 const NotFound = lazy(() => import('./routes/_404.js'));
 
 function App() {
- return (
-  <LocationProvider>
-   <ErrorBoundary>
-    <Router>
-     <Home path="/" />
-     {/* Alternative dedicated route component for better TS support */}
-     <Route path="/profiles" component={Profiles} />
-     <Route path="/profile/:id" component={Profile} />
-     {/* `default` prop indicates a fallback route. Useful for 404 pages */}
-     <NotFound default />
-    </Router>
-   </ErrorBoundary>
-  </LocationProvider>
- );
+  return (
+    <LocationProvider>
+      <ErrorBoundary>
+        <Router>
+          <Home path="/" />
+          {/* Alternative dedicated route component for better TS support */}
+          <Route path="/profiles" component={Profiles} />
+          <Route path="/profile/:id" component={Profile} />
+          {/* `default` prop indicates a fallback route. Useful for 404 pages */}
+          <NotFound default />
+        </Router>
+      </ErrorBoundary>
+    </LocationProvider>
+  );
 }
 ```
 
@@ -67,33 +61,27 @@ function App() {
 Primarily meant for use with prerendering via [`@preact/preset-vite`](https://github.com/preactjs/preset-vite#prerendering-configuration) or other prerendering systems that share the API. If you're server-side rendering your app via any other method, you can use `preact-render-to-string` (specifically `renderToStringAsync()`) directly.
 
 ```jsx
-import {
- LocationProvider,
- ErrorBoundary,
- Router,
- lazy,
- prerender as ssr
-} from 'preact-iso';
+import { LocationProvider, ErrorBoundary, Router, lazy, prerender as ssr } from 'preact-iso';
 
 // Asynchronous (throws a promise)
 const Foo = lazy(() => import('./foo.js'));
 
 function App() {
- return (
-  <LocationProvider>
-   <ErrorBoundary>
-    <Router>
-     <Foo path="/" />
-    </Router>
-   </ErrorBoundary>
-  </LocationProvider>
- );
+  return (
+    <LocationProvider>
+      <ErrorBoundary>
+        <Router>
+          <Foo path="/" />
+        </Router>
+      </ErrorBoundary>
+    </LocationProvider>
+  );
 }
 
 hydrate(<App />);
 
 export async function prerender(data) {
- return await ssr(<App />);
+  return await ssr(<App />);
 }
 ```
 
@@ -104,30 +92,24 @@ Some applications would benefit from having routers of multiple levels, allowing
 Partially matched routes end with a wildcard (`/*`) and only the remaining value will be passed to descendant routers for further matching. This allows you to create a parent route that matches a base path, and then have child routes that match specific sub-paths.
 
 ```jsx
-import {
- lazy,
- LocationProvider,
- ErrorBoundary,
- Router,
- Route
-} from 'preact-iso';
+import { lazy, LocationProvider, ErrorBoundary, Router, Route } from 'preact-iso';
 
 import AllMovies from './routes/movies/all.js';
 
 const NotFound = lazy(() => import('./routes/_404.js'));
 
 function App() {
- return (
-  <LocationProvider>
-   <ErrorBoundary>
-    <Router>
-     <Router path="/movies" component={AllMovies} />
-     <Route path="/movies/*" component={Movies} />
-     <NotFound default />
-    </Router>
-   </ErrorBoundary>
-  </LocationProvider>
- );
+  return (
+    <LocationProvider>
+      <ErrorBoundary>
+        <Router>
+          <Router path="/movies" component={AllMovies} />
+          <Route path="/movies/*" component={Movies} />
+          <NotFound default />
+        </Router>
+      </ErrorBoundary>
+    </LocationProvider>
+  );
 }
 
 const TrendingMovies = lazy(() => import('./routes/movies/trending.js'));
@@ -135,15 +117,15 @@ const SearchMovies = lazy(() => import('./routes/movies/search.js'));
 const MovieDetails = lazy(() => import('./routes/movies/details.js'));
 
 function Movies() {
- return (
-  <ErrorBoundary>
-   <Router>
-    <Route path="/trending" component={TrendingMovies} />
-    <Route path="/search" component={SearchMovies} />
-    <Route path="/:id" component={MovieDetails} />
-   </Router>
-  </ErrorBoundary>
- );
+  return (
+    <ErrorBoundary>
+      <Router>
+        <Route path="/trending" component={TrendingMovies} />
+        <Route path="/search" component={SearchMovies} />
+        <Route path="/:id" component={MovieDetails} />
+      </Router>
+    </ErrorBoundary>
+  );
 }
 ```
 
@@ -181,9 +163,7 @@ Typically, you would wrap your entire app in this provider:
 import { LocationProvider } from 'preact-iso';
 
 function App() {
- return (
-  <LocationProvider scope="/app">{/* Your app here */}</LocationProvider>
- );
+  return <LocationProvider scope="/app">{/* Your app here */}</LocationProvider>;
 }
 ```
 
@@ -199,19 +179,19 @@ Props:
 import { LocationProvider, Router } from 'preact-iso';
 
 function App() {
- return (
-  <LocationProvider>
-   <Router
-    onRouteChange={url => console.log('Route changed to', url)}
-    onLoadStart={url => console.log('Starting to load', url)}
-    onLoadEnd={url => console.log('Finished loading', url)}
-   >
-    <Home path="/" />
-    <Profiles path="/profiles" />
-    <Profile path="/profile/:id" />
-   </Router>
-  </LocationProvider>
- );
+  return (
+    <LocationProvider>
+      <Router
+        onRouteChange={url => console.log('Route changed to', url)}
+        onLoadStart={url => console.log('Starting to load', url)}
+        onLoadEnd={url => console.log('Finished loading', url)}
+      >
+        <Home path="/" />
+        <Profiles path="/profiles" />
+        <Profile path="/profile/:id" />
+      </Router>
+    </LocationProvider>
+  );
 }
 ```
 
@@ -232,19 +212,19 @@ While `<Home path="/" />` is completely equivalent to `<Route path="/" component
 import { LocationProvider, Router, Route } from 'preact-iso';
 
 function App() {
- return (
-  <LocationProvider>
-   <Router>
-    {/* Both of these are equivalent */}
-    <Home path="/" />
-    <Route path="/" component={Home} />
+  return (
+    <LocationProvider>
+      <Router>
+        {/* Both of these are equivalent */}
+        <Home path="/" />
+        <Route path="/" component={Home} />
 
-    <Profiles path="/profiles" />
-    <Profile path="/profile/:id" />
-    <NotFound default />
-   </Router>
-  </LocationProvider>
- );
+        <Profiles path="/profiles" />
+        <Profile path="/profile/:id" />
+        <NotFound default />
+      </Router>
+    </LocationProvider>
+  );
 }
 ```
 
@@ -314,21 +294,19 @@ import { lazy, LocationProvider, Router } from 'preact-iso';
 import Home from './routes/home.js';
 
 // Asynchronous, code-splitted:
-const Profiles = lazy(() =>
- import('./routes/profiles.js').then(m => m.Profiles)
-); // Expects a named export called `Profiles`
+const Profiles = lazy(() => import('./routes/profiles.js').then(m => m.Profiles)); // Expects a named export called `Profiles`
 const Profile = lazy(() => import('./routes/profile.js')); // Expects a default export
 
 function App() {
- return (
-  <LocationProvider>
-   <Router>
-    <Home path="/" />
-    <Profiles path="/profiles" />
-    <Profile path="/profile/:id" />
-   </Router>
-  </LocationProvider>
- );
+  return (
+    <LocationProvider>
+      <Router>
+        <Home path="/" />
+        <Profiles path="/profiles" />
+        <Profile path="/profile/:id" />
+      </Router>
+    </LocationProvider>
+  );
 }
 ```
 
@@ -338,11 +316,11 @@ The result of `lazy()` also exposes a `preload()` method that can be used to loa
 const Profile = lazy(() => import('./routes/profile.js'));
 
 function Home() {
- return (
-  <a href="/profile/rschristian" onMouseOver={() => Profile.preload()}>
-   Profile Page -- Hover over me to preload the module!
-  </a>
- );
+  return (
+    <a href="/profile/rschristian" onMouseOver={() => Profile.preload()}>
+      Profile Page -- Hover over me to preload the module!
+    </a>
+  );
 }
 ```
 
@@ -358,17 +336,17 @@ Props:
 import { LocationProvider, ErrorBoundary, Router } from 'preact-iso';
 
 function App() {
- return (
-  <LocationProvider>
-   <ErrorBoundary onError={e => console.log(e)}>
-    <Router>
-     <Home path="/" />
-     <Profiles path="/profiles" />
-     <Profile path="/profile/:id" />
-    </Router>
-   </ErrorBoundary>
-  </LocationProvider>
- );
+  return (
+    <LocationProvider>
+      <ErrorBoundary onError={e => console.log(e)}>
+        <Router>
+          <Home path="/" />
+          <Profiles path="/profiles" />
+          <Profile path="/profile/:id" />
+        </Router>
+      </ErrorBoundary>
+    </LocationProvider>
+  );
 }
 ```
 
@@ -387,11 +365,11 @@ Params:
 import { hydrate } from 'preact-iso';
 
 function App() {
- return (
-  <div class="app">
-   <h1>Hello World</h1>
-  </div>
- );
+  return (
+    <div class="app">
+      <h1>Hello World</h1>
+    </div>
+  );
 }
 
 hydrate(<App />);
@@ -410,29 +388,23 @@ Params:
 - `jsx: ComponentChild` - The JSX element or component to render
 
 ```jsx
-import {
- LocationProvider,
- ErrorBoundary,
- Router,
- lazy,
- prerender
-} from 'preact-iso';
+import { LocationProvider, ErrorBoundary, Router, lazy, prerender } from 'preact-iso';
 
 // Asynchronous (throws a promise)
 const Foo = lazy(() => import('./foo.js'));
 const Bar = lazy(() => import('./bar.js'));
 
 function App() {
- return (
-  <LocationProvider>
-   <ErrorBoundary>
-    <Router>
-     <Foo path="/" />
-     <Bar path="/bar" />
-    </Router>
-   </ErrorBoundary>
-  </LocationProvider>
- );
+  return (
+    <LocationProvider>
+      <ErrorBoundary>
+        <Router>
+          <Foo path="/" />
+          <Bar path="/bar" />
+        </Router>
+      </ErrorBoundary>
+    </LocationProvider>
+  );
 }
 
 const { html, links } = await prerender(<App />);

@@ -59,20 +59,20 @@ import { signal } from '@preact/signals';
 const count = signal(0);
 
 function Counter() {
- // Accessing .value in a component automatically re-renders when it changes:
- const value = count.value;
+  // Accessing .value in a component automatically re-renders when it changes:
+  const value = count.value;
 
- const increment = () => {
-  // A signal is updated by assigning to the `.value` property:
-  count.value++;
- };
+  const increment = () => {
+    // A signal is updated by assigning to the `.value` property:
+    count.value++;
+  };
 
- return (
-  <div>
-   <p>Count: {value}</p>
-   <button onClick={increment}>click me</button>
-  </div>
- );
+  return (
+    <div>
+      <p>Count: {value}</p>
+      <button onClick={increment}>click me</button>
+    </div>
+  );
 }
 // --repl-after
 render(<Counter />, document.getElementById('app'));
@@ -89,12 +89,12 @@ import { signal } from '@preact/signals';
 const count = signal(0);
 
 function Counter() {
- return (
-  <div>
-   <p>Count: {count}</p>
-   <button onClick={() => count.value++}>click me</button>
-  </div>
- );
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => count.value++}>click me</button>
+    </div>
+  );
 }
 // --repl-after
 render(<Counter />, document.getElementById('app'));
@@ -127,8 +127,8 @@ To let the user enter text for a new todo item, we'll need one more signal that 
 const text = signal('');
 
 function addTodo() {
- todos.value = [...todos.value, { text: text.value }];
- text.value = ''; // Clear input value on add
+  todos.value = [...todos.value, { text: text.value }];
+  text.value = ''; // Clear input value on add
 }
 ```
 
@@ -153,8 +153,8 @@ const todos = signal([{ text: 'Buy groceries' }, { text: 'Walk the dog' }]);
 const text = signal('');
 
 function addTodo() {
- todos.value = [...todos.value, { text: text.value }];
- text.value = ''; // Reset input value on add
+  todos.value = [...todos.value, { text: text.value }];
+  text.value = ''; // Reset input value on add
 }
 
 // Check if our logic works
@@ -176,7 +176,7 @@ The last feature we'd like to add is the ability to remove a todo item from the 
 
 ```jsx
 function removeTodo(todo) {
- todos.value = todos.value.filter(t => t !== todo);
+  todos.value = todos.value.filter(t => t !== todo);
 }
 ```
 
@@ -186,21 +186,21 @@ Now that we've modeled our application's state, it's time to wire it up to a nic
 
 ```jsx
 function TodoList() {
- const onInput = event => (text.value = event.currentTarget.value);
+  const onInput = event => (text.value = event.currentTarget.value);
 
- return (
-  <>
-   <input value={text.value} onInput={onInput} />
-   <button onClick={addTodo}>Add</button>
-   <ul>
-    {todos.value.map(todo => (
-     <li>
-      {todo.text} <button onClick={() => removeTodo(todo)}>❌</button>
-     </li>
-    ))}
-   </ul>
-  </>
- );
+  return (
+    <>
+      <input value={text.value} onInput={onInput} />
+      <button onClick={addTodo}>Add</button>
+      <ul>
+        {todos.value.map(todo => (
+          <li>
+            {todo.text} <button onClick={() => removeTodo(todo)}>❌</button>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
 }
 ```
 
@@ -215,14 +215,14 @@ Let's add one more feature to our todo app: each todo item can be checked off as
 import { signal, computed } from '@preact/signals';
 
 const todos = signal([
- { text: 'Buy groceries', completed: true },
- { text: 'Walk the dog', completed: false }
+  { text: 'Buy groceries', completed: true },
+  { text: 'Walk the dog', completed: false },
 ]);
 
 // create a signal computed from other signals
 const completed = computed(() => {
- // When `todos` changes, this re-runs automatically:
- return todos.value.filter(todo => todo.completed).length;
+  // When `todos` changes, this re-runs automatically:
+  return todos.value.filter(todo => todo.completed).length;
 });
 
 // Logs: 1, because one todo is marked as being completed
@@ -239,13 +239,13 @@ Up until now, we've only created signals outside the component tree. This is fin
 
 ```jsx
 function createAppState() {
- const todos = signal([]);
+  const todos = signal([]);
 
- const completed = computed(() => {
-  return todos.value.filter(todo => todo.completed).length;
- });
+  const completed = computed(() => {
+    return todos.value.filter(todo => todo.completed).length;
+  });
 
- return { todos, completed };
+  return { todos, completed };
 }
 ```
 
@@ -270,15 +270,15 @@ import { createAppState } from './my-app-state';
 const AppState = createContext();
 
 render(
- <AppState.Provider value={createAppState()}>
-  <App />
- </AppState.Provider>
+  <AppState.Provider value={createAppState()}>
+    <App />
+  </AppState.Provider>
 );
 
 // ...later when you need access to your app state
 function App() {
- const state = useContext(AppState);
- return <p>{state.completed}</p>;
+  const state = useContext(AppState);
+  return <p>{state.completed}</p>;
 }
 ```
 
@@ -292,17 +292,17 @@ The majority of application state ends up being passed around using props and co
 import { useSignal, useComputed } from '@preact/signals';
 
 function Counter() {
- const count = useSignal(0);
- const double = useComputed(() => count.value * 2);
+  const count = useSignal(0);
+  const double = useComputed(() => count.value * 2);
 
- return (
-  <div>
-   <p>
-    {count} x 2 = {double}
-   </p>
-   <button onClick={() => count.value++}>click me</button>
-  </div>
- );
+  return (
+    <div>
+      <p>
+        {count} x 2 = {double}
+      </p>
+      <button onClick={() => count.value++}>click me</button>
+    </div>
+  );
 }
 ```
 
@@ -312,7 +312,7 @@ Those two hooks are thin wrappers around [`signal()`](#signalinitialvalue) and [
 >
 > ```js
 > function useSignal(value) {
->  return useMemo(() => signal(value), []);
+>   return useMemo(() => signal(value), []);
 > }
 > ```
 
@@ -360,9 +360,9 @@ Optionally, you can return a cleanup function from the callback provided to [`ef
 
 ```js
 effect(() => {
- Chat.connect(username.value);
+  Chat.connect(username.value);
 
- return () => Chat.disconnect(username.value);
+  return () => Chat.disconnect(username.value);
 });
 ```
 
@@ -398,8 +398,8 @@ const delta = signal(0);
 const count = signal(0);
 
 effect(() => {
- // Update `count` without subscribing to `count`:
- count.value = count.peek() + delta.value;
+  // Update `count` without subscribing to `count`:
+  count.value = count.peek() + delta.value;
 });
 
 // Setting `delta` reruns the effect:
@@ -420,10 +420,10 @@ const delta = signal(0);
 const count = signal(0);
 
 effect(() => {
- // Update `count` without subscribing to `count` or `delta`:
- count.value = untracked(() => {
-  return count.value + delta.value;
- });
+  // Update `count` without subscribing to `count` or `delta`:
+  count.value = untracked(() => {
+    return count.value + delta.value;
+  });
 });
 ```
 
@@ -436,8 +436,8 @@ const todos = signal([]);
 const text = signal('');
 
 function addTodo() {
- todos.value = [...todos.value, { text: text.value }];
- text.value = '';
+  todos.value = [...todos.value, { text: text.value }];
+  text.value = '';
 }
 ```
 
@@ -445,10 +445,10 @@ Notice that the function triggers two separate updates: one when setting `todos.
 
 ```js
 function addTodo() {
- batch(() => {
-  todos.value = [...todos.value, { text: text.value }];
-  text.value = '';
- });
+  batch(() => {
+    todos.value = [...todos.value, { text: text.value }];
+    text.value = '';
+  });
 }
 ```
 
@@ -465,12 +465,12 @@ const triple = computed(() => count.value * 3);
 effect(() => console.log(double.value, triple.value));
 
 batch(() => {
- // set `count`, invalidating `double` and `triple`:
- count.value = 1;
+  // set `count`, invalidating `double` and `triple`:
+  count.value = 1;
 
- // Despite being batched, `double` reflects the new computed value.
- // However, `triple` will only update once the callback completes.
- console.log(double.value); // Logs: 2
+  // Despite being batched, `double` reflects the new computed value.
+  // However, `triple` will only update once the callback completes.
+  console.log(double.value); // Logs: 2
 });
 ```
 
@@ -484,13 +484,13 @@ With signals we can bypass Virtual DOM rendering and bind signal changes directl
 const count = signal(0);
 
 function Unoptimized() {
- // Re-renders the component when `count` changes:
- return <p>{count.value}</p>;
+  // Re-renders the component when `count` changes:
+  return <p>{count.value}</p>;
 }
 
 function Optimized() {
- // Text automatically updates without re-rendering the component:
- return <p>{count}</p>;
+  // Text automatically updates without re-rendering the component:
+  return <p>{count}</p>;
 }
 ```
 
@@ -518,7 +518,7 @@ When creating signals within a component, use the hook variant: `useSignal(initi
 
 ```jsx
 function MyComponent() {
- const count = useSignal(0);
+  const count = useSignal(0);
 }
 ```
 
@@ -539,10 +539,10 @@ When creating computed signals within a component, use the hook variant: `useCom
 
 ```jsx
 function MyComponent() {
- const name = useSignal('Jane');
- const surname = useSignal('Doe');
+  const name = useSignal('Jane');
+  const surname = useSignal('Doe');
 
- const fullName = useComputed(() => `${name.value} ${surname.value}`);
+  const fullName = useComputed(() => `${name.value} ${surname.value}`);
 }
 ```
 
@@ -567,10 +567,10 @@ When responding to signal changes within a component, use the hook variant: `use
 
 ```jsx
 function MyComponent() {
- const name = useSignal('Jane');
+  const name = useSignal('Jane');
 
- // Log to console when `name` changes:
- useSignalEffect(() => console.log('Hello', name.value));
+  // Log to console when `name` changes:
+  useSignalEffect(() => console.log('Hello', name.value));
 }
 ```
 
@@ -584,8 +584,8 @@ const surname = signal('Doe');
 
 // Combine both writes into one update
 batch(() => {
- name.value = 'John';
- surname.value = 'Smith';
+  name.value = 'John';
+  surname.value = 'Smith';
 });
 ```
 
@@ -598,9 +598,9 @@ const name = signal('Jane');
 const surname = signal('Doe');
 
 effect(() => {
- untracked(() => {
-  console.log(`${name.value} ${surname.value}`);
- });
+  untracked(() => {
+    console.log(`${name.value} ${surname.value}`);
+  });
 });
 ```
 
@@ -619,16 +619,16 @@ import { Show } from '@preact/signals/utils';
 const isVisible = signal(false);
 
 function App() {
- return (
-  <Show when={isVisible} fallback={<p>Nothing to see here</p>}>
-   <p>Now you see me!</p>
-  </Show>
- );
+  return (
+    <Show when={isVisible} fallback={<p>Nothing to see here</p>}>
+      <p>Now you see me!</p>
+    </Show>
+  );
 }
 
 // You can also use a function to access the value
 function App() {
- return <Show when={isVisible}>{value => <p>The value is {value}</p>}</Show>;
+  return <Show when={isVisible}>{value => <p>The value is {value}</p>}</Show>;
 }
 ```
 
@@ -643,11 +643,11 @@ import { For } from '@preact/signals/utils';
 const items = signal(['A', 'B', 'C']);
 
 function App() {
- return (
-  <For each={items} fallback={<p>No items</p>}>
-   {(item, index) => <div key={index}>Item: {item}</div>}
-  </For>
- );
+  return (
+    <For each={items} fallback={<p>No items</p>}>
+      {(item, index) => <div key={index}>Item: {item}</div>}
+    </For>
+  );
 }
 ```
 
@@ -664,8 +664,8 @@ import { useLiveSignal } from '@preact/signals/utils';
 const external = signal(0);
 
 function Component() {
- const local = useLiveSignal(external);
- // local will automatically update when external changes
+  const local = useLiveSignal(external);
+  // local will automatically update when external changes
 }
 ```
 
@@ -678,18 +678,14 @@ import { useSignalEffect } from '@preact/signals';
 import { useSignalRef } from '@preact/signals/utils';
 
 function Component() {
- const ref = useSignalRef(null);
+  const ref = useSignalRef(null);
 
- useSignalEffect(() => {
-  if (ref.current) {
-   console.log('Ref has been set to:', ref.current);
-  }
- });
+  useSignalEffect(() => {
+    if (ref.current) {
+      console.log('Ref has been set to:', ref.current);
+    }
+  });
 
- return (
-  <div ref={ref}>
-   The ref has been attached to a {ref.current?.tagName} element.
-  </div>
- );
+  return <div ref={ref}>The ref has been attached to a {ref.current?.tagName} element.</div>;
 }
 ```

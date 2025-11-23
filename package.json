@@ -1,12 +1,17 @@
 {
   "name": "preact-test-app-02",
+  "appNAme": "Preact Test App 02",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "merge-src": "node scripts/merge-files.js",
+    "split-src": "node scripts/split-files.js",
+    "format": "prettier --write .",
+    "format-check": "prettier --check ."
   },
   "dependencies": {
     "@preact/signals": "^2.5.1",
@@ -16,6 +21,11 @@
   "devDependencies": {
     "@preact/preset-vite": "^2.10.2",
     "@types/node": "^24.10.1",
+    "autoprefixer": "^10.4.22",
+    "cssnano": "^7.1.2",
+    "postcss": "^8.5.6",
+    "prettier": "^3.6.2",
+    "terser": "^5.44.1",
     "typescript": "~5.9.3",
     "vite": "^7.2.4"
   }

@@ -1,21 +1,20 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>Preact App</title>
-  <script>
-    var l = window.location;
-    var path = l.pathname;
-    if (path.startsWith('/preact-test-app-02/')) {
-      var relative = path.slice('/preact-test-app-02/'.length);
-      if (relative) {
-        l.replace('/preact-test-app-02/?/' + relative + l.search + l.hash);
-      } else {
-        l.replace('/preact-test-app-02/' + l.search + l.hash);
+  <head>
+    <meta charset="utf-8" />
+    <title>Preact App</title>
+    <script>
+      var l = window.location;
+      var path = l.pathname;
+      if (path.startsWith('/preact-test-app-02/')) {
+        var relative = path.slice('/preact-test-app-02/'.length);
+        if (relative) {
+          l.replace('/preact-test-app-02/?/' + relative + l.search + l.hash);
+        } else {
+          l.replace('/preact-test-app-02/' + l.search + l.hash);
+        }
       }
-    }
-  </script>
-</head>
-<body>
-</body>
+    </script>
+  </head>
+  <body></body>
 </html>
